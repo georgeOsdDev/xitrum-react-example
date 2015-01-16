@@ -1,0 +1,19 @@
+{
+  "name": "xitrum-react",
+  "version": "0.0.0",
+  "description": "",
+  "main": "App.js",
+  "dependencies": {
+    "react": "~0.12.2",
+    "node-jsx": "^0.12.4"
+  },
+  "devDependencies": {
+    "reactify": "^0.17.1",
+    "browserify": "^8.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

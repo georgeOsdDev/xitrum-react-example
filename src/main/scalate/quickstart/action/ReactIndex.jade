@@ -1,0 +1,22 @@
+- import quickstart.action._
+
+!!! 5
+html
+  head
+    != antiCsrfMeta
+    != xitrumCss
+    
+    meta(content="text/html; charset=utf-8" http-equiv="content-type")
+      title Xitrum-React
+      
+      link(rel="shortcut icon" href={publicUrl("favicon.ico")})
+      link(type="text/css" rel="stylesheet" media="all" href={webJarsUrl("bootstrap/3.3.1/css", "bootstrap.css", "bootstrap.min.css")})
+      link(type="text/css" rel="stylesheet" media="all" href={publicUrl("app.css")})
+        
+  body
+    div#content
+      != at("react")
+    div#content2
+    != jsDefaults
+    != jsForView
+    script(src={publicUrl("bundle.js")})
