@@ -2,18 +2,18 @@
 
 !!! 5
 html
-  head
-    != antiCsrfMeta
-    != xitrumCss
-    
+  head    
     meta(content="text/html; charset=utf-8" http-equiv="content-type")
-      title Xitrum-React
-      link(rel="shortcut icon" href={publicUrl("favicon.ico")})
-    != currentAction.asInstanceOf[ReactIndex].propsForView
+    title Xitrum-React
+    != currentAction.asInstanceOf[ReactIndex].propsForReact
   body
-    div#content
-      != at("react")
-    pre= at("react")
-    != jsDefaults
-    != jsForView
+    ! <div id="content">#{currentAction.asInstanceOf[ReactIndex].reactForView}</div>
+    
+    <hr/>
+    h3 Server rendered html(See also web console)
+    pre
+      = currentAction.asInstanceOf[ReactIndex].reactForView.split(">").mkString(">\n")
     script(src={publicUrl("bundle.js")})
+    //- script(src="//fb.me/react-0.12.2.js")
+    //- script(src="//fb.me/JSXTransformer-0.12.2.js")
+    //- script(src={publicUrl("main.js")} type="text/jsx")

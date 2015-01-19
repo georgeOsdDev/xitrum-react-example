@@ -46,30 +46,39 @@ trait JSEngine {
 trait ReactRenderer extends Renderer with JSEngine {
   this: Action =>
 
-  private val buffer = new StringBuilder
+  private val bufferForProp  = new StringBuilder
+  private val bufferForReact = new StringBuilder
 
-  lazy val propsForView = if (buffer.isEmpty) "" else buffer.toString
+  lazy val reactForView  = if (bufferForReact.isEmpty) "" else bufferForReact.toString
+  lazy val propsForReact = if (bufferForProp.isEmpty) ""  else bufferForProp.toString
+
+  def reactAddToView(reactHtml: String) {
+    bufferForReact.append(reactHtml)
+    // Don't append line break
+  }
+
+  def propsAddToView(reactClass: String, props:String) {
+    bufferForProp.append(s"<script id='${reactClass}-props' type='text/plain' data-react-class='${reactClass}' data-json='${props}'></script>")
+    bufferForProp.append("\n")
+  }
 
   def propsAddToView(reactClass: String, props: Map[String, Any]) {
     val propsJson = SeriDeseri.toJson(props)
     propsAddToView(reactClass, props)
   }
 
-  def propsAddToView(reactClass: String, props:String) {
-    buffer.append(s"<script id='${reactClass}-props' type='text/plain' data-react-class='{reactClass}' data-json='${props}'></script>")
-    buffer.append("\n")
-  }
 
-  def renderReactView(reactClass: String, props: Map[String, Any]): String = {
+  def renderReactView(reactClass: String, props: Map[String, Any]): Unit = {
     val deps      = Map(s"${reactClass}" -> s"./react/${reactClass}.jsx")
 
     val propsJson = SeriDeseri.toJson(props)
     propsAddToView(reactClass, propsJson)
 
-    evalJS(deps, s"React.renderToString(global.${reactClass}(JSON.parse('${propsJson}')))", "serverReact.js") match {
+    val html = evalJS(deps, s"React.renderToString(global.${reactClass}(JSON.parse('${propsJson}')))", "serverReact.js") match {
       case (0, result) => result
       case _           => "<div style='display:none;'>Error happen on Server-Side React Rendering</div>"
     }
+    reactAddToView(html)
   }
 }
 
@@ -78,7 +87,7 @@ class ReactIndex extends Action with ReactRenderer {
   override def layout = renderViewNoLayout()
   def execute() {
     val props = Map("msg1" -> "Hello", "msg2" -> "World")
-    at("react") = renderReactView("App", props)
+    renderReactView("App", props)
     respondView()
   }
 }

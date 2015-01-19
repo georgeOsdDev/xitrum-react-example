@@ -91,10 +91,7 @@ var React = require('react'),
     App   = React.createFactory(require('./react/app.jsx'))
 
 var appProps = JSON.parse(document.getElementById('App-props').getAttribute('data-json'));
-setTimeout(function(){
-  React.render(App(appProps), document.getElementById("content"));
-},3000);
-
+React.render(App(appProps), document.getElementById("content"));
 },{"./react/app.jsx":149,"react":148}],3:[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -18348,11 +18345,13 @@ var App = React.createClass({displayName: "App",
   render: function() {
     return (
       React.createElement("div", {className: "appComponent"}, 
-        React.createElement("p", null, "App"), 
-        React.createElement("p", null, this.props.msg1, " ", this.props.msg2), 
-        React.createElement("p", null, 
-          React.createElement("button", {onClick: this.toggleClicked}), 
-          React.createElement("span", null, this.state.cnt)
+        React.createElement("div", null, 
+          React.createElement("p", null, "App"), 
+          React.createElement("p", null, this.props.msg1, " ", this.props.msg2), 
+          React.createElement("p", null, 
+            React.createElement("button", {onClick: this.toggleClicked}), 
+            React.createElement("span", null, this.state.cnt)
+          )
         )
       )
     );

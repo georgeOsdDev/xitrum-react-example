@@ -1,4 +1,3 @@
-var React = require('react');
 var App = React.createClass({
   getInitialState: function() {
     return {
@@ -22,16 +21,15 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="appComponent" >
-        <div>
-          <p>App</p>
-          <p>{this.props.msg1} {this.props.msg2}</p>
-          <p>
-            <button onClick={this.toggleClicked}></button>
-            <span>{this.state.cnt}</span>
-          </p>
-        </div>
+      <p>App</p>
+      <p>{this.props.msg1} {this.props.msg2}</p>
+      <p>
+      <button onClick={this.toggleClicked}></button>
+      <span>{this.state.cnt}</span>
+      </p>
       </div>
     );
   }
 });
-module.exports = App
+var appProps = JSON.parse(document.getElementById('App-props').getAttribute('data-json'));
+React.render(App(appProps), document.getElementById("content"));
