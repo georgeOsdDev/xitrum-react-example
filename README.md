@@ -97,7 +97,7 @@ React.render(App(appProps), document.getElementById("content"));
       </p>
       <p data-reactid=".2bhn40i2cxs.0.2">
         <button data-reactid=".2bhn40i2cxs.0.2.0"></button>
-        <span data-reactid=".2bhn40i2cxs.0.2.1">4</span>
+        <span data-reactid=".2bhn40i2cxs.0.2.1">0</span>
       </p>
     </div>
   </div>
