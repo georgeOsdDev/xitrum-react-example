@@ -22,8 +22,6 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.2"
 // For writing condition in logback.xml
 libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.7"
 
-libraryDependencies += "org.webjars" % "bootstrap" % "3.3.1"
-
 // Scalate template engine config for Xitrum -----------------------------------
 
 libraryDependencies += "tv.cntt" %% "xitrum-scalate" % "2.3"

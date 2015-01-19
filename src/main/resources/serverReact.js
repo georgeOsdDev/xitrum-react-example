@@ -10,7 +10,6 @@ require('node-jsx').install({harmony: true, extension: '.jsx'})
 var global = this;
 var modules = JSON.parse(dependencies);
 Object.keys(modules).forEach(function(k){
-  global[k] = require(modules[k]);
+  global[k] = React.createFactory(require(modules[k]));
 });
-
 console.log(eval(evalString));

@@ -8,15 +8,12 @@ html
     
     meta(content="text/html; charset=utf-8" http-equiv="content-type")
       title Xitrum-React
-      
       link(rel="shortcut icon" href={publicUrl("favicon.ico")})
-      link(type="text/css" rel="stylesheet" media="all" href={webJarsUrl("bootstrap/3.3.1/css", "bootstrap.css", "bootstrap.min.css")})
-      link(type="text/css" rel="stylesheet" media="all" href={publicUrl("app.css")})
-        
+    != currentAction.asInstanceOf[ReactIndex].propsForView
   body
     div#content
       != at("react")
-    div#content2
+    pre= at("react")
     != jsDefaults
     != jsForView
     script(src={publicUrl("bundle.js")})

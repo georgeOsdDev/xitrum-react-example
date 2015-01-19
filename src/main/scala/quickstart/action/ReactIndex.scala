@@ -46,10 +46,27 @@ trait JSEngine {
 trait ReactRenderer extends Renderer with JSEngine {
   this: Action =>
 
-  def renderReactView(reactClass: String, props: Map[String, Any]): String = {
+  private val buffer = new StringBuilder
+
+  lazy val propsForView = if (buffer.isEmpty) "" else buffer.toString
+
+  def propsAddToView(reactClass: String, props: Map[String, Any]) {
     val propsJson = SeriDeseri.toJson(props)
+    propsAddToView(reactClass, props)
+  }
+
+  def propsAddToView(reactClass: String, props:String) {
+    buffer.append(s"<script id='${reactClass}-props' type='text/plain' data-react-class='{reactClass}' data-json='${props}'></script>")
+    buffer.append("\n")
+  }
+
+  def renderReactView(reactClass: String, props: Map[String, Any]): String = {
     val deps      = Map(s"${reactClass}" -> s"./react/${reactClass}.jsx")
-    evalJS(deps, s"React.renderToString(React.createElement(global.${reactClass}, JSON.parse('${propsJson}')))", "serverReact.js") match {
+
+    val propsJson = SeriDeseri.toJson(props)
+    propsAddToView(reactClass, propsJson)
+
+    evalJS(deps, s"React.renderToString(global.${reactClass}(JSON.parse('${propsJson}')))", "serverReact.js") match {
       case (0, result) => result
       case _           => "<div style='display:none;'>Error happen on Server-Side React Rendering</div>"
     }
@@ -60,7 +77,8 @@ trait ReactRenderer extends Renderer with JSEngine {
 class ReactIndex extends Action with ReactRenderer {
   override def layout = renderViewNoLayout()
   def execute() {
-    at("react") = renderReactView("App", Map("msg1" -> "Hello", "msg2" -> "This is server-side rendering"))
+    val props = Map("msg1" -> "Hello", "msg2" -> "World")
+    at("react") = renderReactView("App", props)
     respondView()
   }
 }

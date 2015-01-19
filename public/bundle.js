@@ -87,12 +87,13 @@ process.chdir = function (dir) {
 };
 
 },{}],2:[function(require,module,exports){
-var React        = require('react'),
-    AppComponent = require('./react/app.jsx')
-setTimeout(function(){
-  React.render(React.createElement(AppComponent, {msg1: "Hello", msg2: "This is client side react"}), document.getElementById("content"));
-},1000);
+var React = require('react'),
+    App   = React.createFactory(require('./react/app.jsx'))
 
+var appProps = JSON.parse(document.getElementById('App-props').getAttribute('data-json'));
+setTimeout(function(){
+  React.render(App(appProps), document.getElementById("content"));
+},3000);
 
 },{"./react/app.jsx":149,"react":148}],3:[function(require,module,exports){
 /**
@@ -18324,16 +18325,38 @@ module.exports = require('./lib/React');
 
 },{"./lib/React":30}],149:[function(require,module,exports){
 var React = require('react');
-var AppComponent = React.createClass({displayName: "AppComponent",
+var App = React.createClass({displayName: "App",
+  getInitialState: function() {
+    return {
+      cnt: 0
+    };
+  },
+
+  toggleClicked: function() {
+    this.setState({
+      cnt: this.state.cnt +1
+    });
+  },
+
+  componentWillMount:function() {
+  },
+
+  componentDidMount:function() {
+    console.log("didMount");
+  },
+
   render: function() {
     return (
       React.createElement("div", {className: "appComponent"}, 
-        React.createElement("p", null, "AppComponent"), 
-        React.createElement("p", null, this.props.msg1), 
-        React.createElement("p", null, this.props.msg2)
+        React.createElement("p", null, "App"), 
+        React.createElement("p", null, this.props.msg1, " ", this.props.msg2), 
+        React.createElement("p", null, 
+          React.createElement("button", {onClick: this.toggleClicked}), 
+          React.createElement("span", null, this.state.cnt)
+        )
       )
     );
   }
 });
-module.exports = AppComponent
+module.exports = App
 },{"react":148}]},{},[2]);

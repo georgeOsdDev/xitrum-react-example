@@ -1,6 +1,7 @@
-var React        = require('react'),
-    AppComponent = require('./react/app.jsx')
-setTimeout(function(){
-  React.render(<AppComponent msg1="Hello" msg2="This is client side react" />, document.getElementById("content"));
-},1000);
+var React = require('react'),
+    App   = React.createFactory(require('./react/app.jsx'))
 
+var appProps = JSON.parse(document.getElementById('App-props').getAttribute('data-json'));
+setTimeout(function(){
+  React.render(App(appProps), document.getElementById("content"));
+},3000);
