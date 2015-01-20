@@ -12,7 +12,7 @@
     <then>
       <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-          <pattern>[%level] %m%n</pattern>
+          <pattern>[%level] %c{1} - %m%n</pattern>
         </encoder>
       </appender>
 
