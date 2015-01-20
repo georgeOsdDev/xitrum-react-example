@@ -11,4 +11,5 @@ Object.keys(modules).forEach(function(k){
   global[k] = require(modules[k]);
 });
 
-console.log(eval(evalString));
+var ret = eval("(function(){ return "+evalString+"})();");
+console.log(ret);

@@ -12,4 +12,5 @@ var modules = JSON.parse(dependencies);
 Object.keys(modules).forEach(function(k){
   global[k] = React.createFactory(require(modules[k]));
 });
-console.log(eval(evalString));
+var ret = eval("(function(){ return "+evalString+"})();");
+console.log(ret);
